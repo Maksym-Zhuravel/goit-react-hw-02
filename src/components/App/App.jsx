@@ -43,7 +43,8 @@ export default function App() {
       <Options
         options={options}
         onClick={updateFeedback}
-        onReset={totalFeedback > 0 ? resetFeedback : undefined}
+        onReset={resetFeedback}
+        totalFeedback={totalFeedback}
       />
       {totalFeedback > 0 ? (
         <Feedback

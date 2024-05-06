@@ -1,4 +1,4 @@
-export default function Options({ options, onClick, onReset }) {
+export default function Options({ options, onClick, onReset, totalFeedback }) {
   return (
     <>
       {options.map((option) => (
@@ -6,7 +6,7 @@ export default function Options({ options, onClick, onReset }) {
           {option}
         </button>
       ))}
-      <button onClick={onReset}>Reset</button>
+      {totalFeedback > 0 ? <button onClick={onReset}>Reset</button> : undefined}
     </>
   );
 }
