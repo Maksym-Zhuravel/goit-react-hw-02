@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Feedback from "../Feedback/Feedback";
+import Options from "../Options/Options";
 
 export default function App() {
-  const [values, setValues] = useState({
-    good: 0,
-    neutral: 0,
-    bad: 0,
+  const [values, setValues] = useState(() => {
+    const savedValues = window.localStorage.getItem("saved-values");
+    if (savedValues !== null) {
+      return JSON.parse(savedValues).values;
+    }
+    return { good: 0, neutral: 0, bad: 0 };
   });
+
+  useEffect(() => {
+    window.localStorage.setItem("saved-values", JSON.stringify({ values }));
+  }, [values]);
 
   const updateFeedback = (value) => {
     setValues((values) => ({
@@ -15,7 +22,16 @@ export default function App() {
     }));
   };
 
+  const resetFeedback = () => {
+    setValues({
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    });
+  };
   const totalFeedback = values.good + values.neutral + values.bad;
+  const feedbackPersentage = Math.round((values.good / totalFeedback) * 100);
+  const options = ["good", "neutral", "bad"];
 
   return (
     <>
@@ -24,10 +40,20 @@ export default function App() {
         Please leave your feedback about our service by selecting one of the
         options below.
       </p>
-      <button onClick={() => updateFeedback("good")}>Good</button>
-      <button onClick={() => updateFeedback("neutral")}>Neutral</button>
-      <button onClick={() => updateFeedback("bad")}>Bad</button>
-      {totalFeedback > 0 ? <Feedback values={values} /> : "No feedback yet"}
+      <Options
+        options={options}
+        onClick={updateFeedback}
+        onReset={totalFeedback > 0 ? resetFeedback : undefined}
+      />
+      {totalFeedback > 0 ? (
+        <Feedback
+          totalFeedback={totalFeedback}
+          values={values}
+          feedbackPersentage={feedbackPersentage}
+        />
+      ) : (
+        <p>No feedback yet</p>
+      )}
     </>
   );
 }
