@@ -31,7 +31,6 @@ export default function App() {
   };
   const totalFeedback = values.good + values.neutral + values.bad;
   const feedbackPersentage = Math.round((values.good / totalFeedback) * 100);
-  const options = ["good", "neutral", "bad"];
 
   return (
     <>
@@ -41,7 +40,6 @@ export default function App() {
         options below.
       </p>
       <Options
-        options={options}
         onClick={updateFeedback}
         onReset={resetFeedback}
         totalFeedback={totalFeedback}
