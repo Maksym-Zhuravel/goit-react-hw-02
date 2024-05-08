@@ -1,7 +1,7 @@
 export default function Feedback({
   totalFeedback,
   values: { good, neutral, bad },
-  feedbackPersentage,
+  feedbackPercentage,
 }) {
   return (
     <ul>
@@ -9,7 +9,7 @@ export default function Feedback({
       <li>Neutral: {neutral}</li>
       <li>Bad: {bad}</li>
       <li>Total: {totalFeedback}</li>
-      <li>Positive: {feedbackPersentage}%</li>
+      <li>Positive: {feedbackPercentage}%</li>
     </ul>
   );
 }
